@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>🐦 BirdEar</h1>
+        <nav>
+            <a href="/">Hjem</a>
+        </nav>
+    </header>
+    <main>
+        <div id="opptak"></div>
+    </main>
+
+    <script>
+        const API = "{{ api_base_url }}";
+
+        async function hentOpptak(vitenskapeligNavn, norskNavn, from, to, minConf) {
+
+            const div = document.getElementById("opptak");
+            div.innerHTML = `<h2>${norskNavn} <span style="font-weight:normal;font-style:italic;font-size:0.8em">(${vitenskapeligNavn})</span></h2>
+                <p id="laster">⏳ Henter lydklipp...</p>`;
+
+
+            const url = `${API}/detections/recordings?from_date=${from}:00&to_date=${to}:59&scientific_name=${encodeURIComponent(vitenskapeligNavn)}&min_conf=${minConf}`;                
+            const resp = await fetch(url);
+            const opptak = await resp.json();
+
+            document.getElementById("laster")?.remove();
+
+            if (opptak.length === 0) {
+                div.innerHTML += "<p>Ingen opptak funnet.</p>";
+                return;
+            }
+
+            for (const o of opptak) {
+                const item = document.createElement("div");
+                item.className = "opptak-item";
+                item.innerHTML = `
+                    <p>
+                        <strong>${o.timestamp}</strong>
+                        — Konfidens: ${(o.confidence * 100).toFixed(1)}%
+                        — ${o.start_time}s–${o.end_time}s
+                    </p>
+                    <audio controls src="${API}${o.url}"></audio>
+                `;
+                div.appendChild(item);
+            }
+        }
+
+
+        (async () => {
+            const params = new URLSearchParams(window.location.search);
+            const scientific = params.get("scientific_name");
+            const fromParam = params.get("from_date");
+            const toParam = params.get("to_date");
+            const minConf = params.get("min_conf") || "0.7";
+
+            if (!scientific || !fromParam || !toParam) {
+                document.getElementById("opptak").innerHTML = "<p>Ingen art eller tidsrom angitt.</p>";
+                return;
+            }
+
+            // Hent norsk navn via species_count med UTC-tid
+            const resp = await fetch(`${API}/detections/species_count?from_date=${fromParam}:00&to_date=${toParam}:59&min_conf=${minConf}`);
+            const arter = await resp.json();
+            const match = arter.find(a => a.vitenskapelig_navn === scientific);
+            const norskNavn = match ? match.art : scientific;
+
+            hentOpptak(scientific, norskNavn, fromParam, toParam, minConf);
+        })();
+
+    </script>
+</body>
+</html>

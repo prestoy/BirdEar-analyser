@@ -1,0 +1,221 @@
+[
+  {
+    "vitenskapelig_navn": "Fulica atra",
+    "navn": "sothøne",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Ardea cinerea",
+    "navn": "gråhegre",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Cygnus cygnus",
+    "navn": "sangsvane",
+    "maaneder": [
+      {"mnd": 4, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 5, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 6, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 7, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 8, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 9, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 10, "status": "ekskluder", "min_konfidens": null, "sone": "rød"}
+    ]
+  },
+  {
+    "vitenskapelig_navn": "Anas crecca",
+    "navn": "krikkand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Mareca strepera",
+    "navn": "snadderand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Pernis apivorus",
+    "navn": "vepsesvåk",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Buteo buteo",
+    "navn": "musvåk",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Porzana porzana",
+    "navn": "myrrikse",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Corvus corone",
+    "navn": "svartkråke",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Picus canus",
+    "navn": "gråspett",
+    "maaneder": [
+      {"mnd": 4, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 5, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 6, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 7, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 8, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 9, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 10, "status": "ekskluder", "min_konfidens": null, "sone": "rød"}
+    ]
+  },
+  {
+    "vitenskapelig_navn": "Calidris alpina",
+    "navn": "myrsnipe",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Bubo bubo",
+    "navn": "hubro",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Dryocopus martius",
+    "navn": "svartspett",
+    "maaneder": [
+      {"mnd": 4, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 5, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 6, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 7, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 8, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 9, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 10, "status": "ekskluder", "min_konfidens": null, "sone": "rød"}
+    ]
+  },
+  {
+    "vitenskapelig_navn": "Motacilla cinerea",
+    "navn": "vintererle",
+    "maaneder": [
+      {"mnd": 1, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 2, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 9, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 10, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 11, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 12, "status": "ekskluder", "min_konfidens": null, "sone": "rød"}
+    ]
+  },
+  {
+    "vitenskapelig_navn": "Pluvialis apricaria",
+    "navn": "heilo",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Branta leucopsis",
+    "navn": "hvitkinngås",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Grus grus",
+    "navn": "trane",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Thalasseus sandvicensis",
+    "navn": "splitterne",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Gavia immer",
+    "navn": "islom",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Coturnix coturnix",
+    "navn": "vaktel",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Mareca penelope",
+    "navn": "brunnakke",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Aegolius funereus",
+    "navn": "perleugle",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Tringa nebularia",
+    "navn": "gluttsnipe",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Tringa totanus",
+    "navn": "rødstilk",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Gallinula chloropus",
+    "navn": "sivhøne",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Streptopelia decaocto",
+    "navn": "tyrkerdue",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Pluvialis squatarola",
+    "navn": "tundralo",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Cygnus columbianus",
+    "navn": "dvergsvane",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Gavia stellata",
+    "navn": "smålom",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Numenius arquata",
+    "navn": "storspove",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Asio otus",
+    "navn": "hornugle",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Podiceps auritus",
+    "navn": "horndykker",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Bucephala clangula",
+    "navn": "kvinand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Hydroprogne caspia",
+    "navn": "rovterne",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Anas platyrhynchos",
+    "navn": "stokkand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Falco tinnunculus",
+    "navn": "tårnfalk",
+    "maaneder": [
+      {"mnd": 1, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 2, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 3, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 9, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 10, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 11, "status": "ekskluder", "min_konfidens": null, "sone": "rød"},
+      {"mnd": 12, "status": "ekskluder", "min_konfidens": null, "sone": "rød"}
+    ]
+  }
+]

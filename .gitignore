@@ -1,0 +1,14 @@
+# Mapper
+__pycache__/
+.env/
+temp/
+tmp/
+
+# Database
+data/*.sqlite
+
+# Konfigurasjonsfil
+config*
+
+# Loggfiler
+*.log

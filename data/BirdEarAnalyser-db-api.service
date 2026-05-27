@@ -1,0 +1,16 @@
+[Unit]
+Description=BirdEarAnalyser DB API
+After=network.target
+
+[Service]
+User=e33admin
+WorkingDirectory=/home/e33admin/apps/BirdMicAnalyser/data
+ExecStart=/home/e33admin/apps/BirdMicAnalyser/.env/bin/uvicorn birdear-db-api:app --host 0.0.0.0 --port 8001
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
