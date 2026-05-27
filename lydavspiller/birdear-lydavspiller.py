@@ -16,7 +16,8 @@ app = FastAPI()
 # Konfigurasjon
 # ----------------------------------------------------------------
 #API_BASE_URL = "http://192.168.0.239:8001"
-API_BASE_URL = "https://birdmic-api.prestoy.cc"
+#API_BASE_URL = "https://birdmic-api.prestoy.cc"
+API_BASE_URL = "https://birdear-api.prestoy.cc"
 
 def load_config():
     with open("config-default.yaml") as f:

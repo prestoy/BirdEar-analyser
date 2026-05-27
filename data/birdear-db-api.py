@@ -221,6 +221,8 @@ def archive_by_ids(ids: list[int]):
 #  GRAFANA-SPESIFIKE QUERIES
 ##################################################################
 
+MIN_CONF = 0.7
+
 # ----------------------------------------------------------------
 # Filterkonfigurasjon
 # ----------------------------------------------------------------
@@ -340,7 +342,7 @@ def get_norwegian_name(scientific_name: str) -> str:
 def get_detections_matrix(
     from_date: str,
     to_date: str,
-    min_conf: float = 0.8
+    min_conf: float = MIN_CONF
 ):
     # Konverter dato på grunnlag av locale
     from_date = to_local(from_date)
@@ -411,7 +413,7 @@ def get_detections_matrix(
 def get_detections_matrix_percentage(
     from_date: str,
     to_date: str,
-    min_conf: float = 0.8
+    min_conf: float = MIN_CONF
 ):
     # Konverter dato på grunnlag av locale
     from_date = to_local(from_date)
@@ -490,7 +492,7 @@ def get_detections_matrix_percentage(
 def get_detections_by_hour(
     from_date: str,
     to_date: str,
-    min_conf: float = 0.8
+    min_conf: float = MIN_CONF
 ):
     # Konverter dato på grunnlag av locale
     from_date = to_local(from_date)
@@ -544,7 +546,7 @@ def get_detections_by_hour(
 def get_species_count(
     from_date: str,
     to_date: str,
-    min_conf: float = 0.7
+    min_conf: float = MIN_CONF
 ):
 
     conn = get_db()
@@ -578,7 +580,7 @@ def get_recordings(
     from_date: str,
     to_date: str,
     scientific_name: str,
-    min_conf: float = 0.7
+    min_conf: float = MIN_CONF
 ):
 
     conn = get_db()
@@ -626,7 +628,7 @@ def get_species_by_hour(
     from_date: str,
     to_date: str,
     scientific_name: str,
-    min_conf: float = 0.7
+    min_conf: float = MIN_CONF
 ):
     # Konverter dato på grunnlag av locale
     from_date = to_local(from_date)
