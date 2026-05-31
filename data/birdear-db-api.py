@@ -11,9 +11,6 @@ from datetime import datetime, timezone
 import zoneinfo
 
 CONFIG = "/home/e33admin/apps/BirdEar-analyser/config-default.yaml"
-config = load_config()
-MIN_CONF = config["analyse"]["min_confidence_display"]
-AUDIO_DIR = config["audio-path"]
 
 
 app = FastAPI()
@@ -39,10 +36,6 @@ def to_local(iso_str: str) -> str:
     tz_oslo = zoneinfo.ZoneInfo("Europe/Oslo")
     dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
     return dt.astimezone(tz_oslo).strftime("%Y-%m-%dT%H:%M:%S")
-
-def load_config():
-    with open(CONFIG) as f:
-        return yaml.safe_load(f)
 
 def get_db():
     config = load_config()
@@ -164,6 +157,11 @@ def get_norwegian_name(scientific_name: str) -> str:
 
 #  GRAFANA-SPESIFIKE QUERIES
 ##################################################################
+
+config = load_config()
+MIN_CONF = config["analyse"]["min_confidence_display"]
+AUDIO_DIR = config["audio-path"]
+
 
 # ----------------------------------------------------------------
 # 9. Matrise: antall deteksjoner per art per time (pivotert)
