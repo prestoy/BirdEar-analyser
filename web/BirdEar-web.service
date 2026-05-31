@@ -1,0 +1,16 @@
+[Unit]
+Description=BirdEar webserver (lydavspiller, artsbilde og andre artifakter)
+After=network.target
+
+[Service]
+User=e33admin
+WorkingDirectory=/home/e33admin/apps/BirdMicAnalyser/web
+ExecStart=/home/e33admin/apps/BirdMicAnalyser/.env/bin/uvicorn birdear-web:app --host 0.0.0.0 --port 8002
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target

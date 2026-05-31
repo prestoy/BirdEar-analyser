@@ -12,6 +12,8 @@ import zoneinfo
 
 CONFIG = "/home/e33admin/apps/BirdMicAnalyser/config-default.yaml"
 AUDIO_DIR = "/mnt/nas-e33_felles/birdmic/audioarkiv"
+MIN_CONF = 0.7
+
 
 app = FastAPI()
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,11 +21,13 @@ from fastapi.middleware.cors import CORSMiddleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://birdear-api.prestoy.cc",
-        "https://birdear-api.prestoy.cc",
-        "http://birdear-player.prestoy.cc",
-        "https://birdear-player.prestoy.cc",    
         "http://192.168.1.62:8002",
+        "http://birdmic-player.prestoy.cc",
+        "https://birdmic-player.prestoy.cc",
+        "http://birdear-player.prestoy.cc",
+        "https://birdear-player.prestoy.cc",
+        "http://birdmic-api.prestoy.cc",
+        "https://birdmic-api.prestoy.cc",
     ],
     allow_methods=["GET"],
     allow_headers=["*"],
@@ -45,183 +49,6 @@ def get_db():
     conn.row_factory = sqlite3.Row
     return conn
 
-# ----------------------------------------------------------------
-# 1. Kalender: datoer med deteksjoner for en gitt måned
-# ----------------------------------------------------------------
-@app.get("/detections/days")
-def get_detection_days(year: int, month: int):
-    from datetime import datetime, timedelta
-    start_date = f"{year}-{month:02d}-01"
-    end_date = (datetime.strptime(start_date, "%Y-%m-%d") + timedelta(days=31)).replace(day=1).strftime("%Y-%m-%d")
-    conn = get_db()
-    rows = conn.execute(
-        "SELECT DISTINCT DATE(timestamp) as d FROM detections WHERE DATE(timestamp) BETWEEN ? AND ?",
-        (start_date, end_date)
-    ).fetchall()
-    conn.close()
-    return [row["d"] for row in rows]
-
-# ----------------------------------------------------------------
-# 2. Dagsvisning: art + time for en dato (til histogram)
-# ----------------------------------------------------------------
-# PATCH 13-05-2026: Erstatt eksisterende /detections/by_date med denne versjonen.
-# Endringen: confidence er lagt til i SELECT og returverdien,
-# slik at show_filtered_detections kan filtrere på artsspecifikk terskel.
-# ----------------------------------------------------------------
-
-@app.get("/detections/by_date")
-def get_detections_by_date(date: str, min_conf: float = 0.8):
-    conn = get_db()
-    rows = conn.execute(
-        """SELECT scientific_name,
-                  strftime('%H', timestamp) as hour,
-                  confidence
-           FROM detections
-           WHERE DATE(timestamp) = ? AND confidence >= ?""",
-        (date, min_conf)
-    ).fetchall()
-    conn.close()
-    return [
-        {
-            "scientific_name": row["scientific_name"],
-            "hour":            int(row["hour"]),
-            "confidence":      row["confidence"],
-        }
-        for row in rows
-    ]
-
-# ----------------------------------------------------------------
-# 3. Artsdetaljer: timestamp, recording, start/end_time, confidence
-# ----------------------------------------------------------------
-@app.get("/detections/species_details")
-def get_species_details(
-    date: str,
-    scientific_name: str,
-    hour: Optional[int] = None,
-    min_conf: float = 0.0
-):
-    conn = get_db()
-    if hour is not None:
-        rows = conn.execute(
-            """SELECT DISTINCT timestamp, recording, start_time, end_time, confidence
-               FROM detections
-               WHERE DATE(timestamp) = ? AND scientific_name = ?
-               AND strftime('%H', timestamp) = ? AND confidence >= ?
-               ORDER BY timestamp""",
-            (date, scientific_name, f"{hour:02d}", min_conf)
-        ).fetchall()
-    else:
-        rows = conn.execute(
-            """SELECT DISTINCT timestamp, recording, start_time, end_time, confidence
-               FROM detections
-               WHERE DATE(timestamp) = ? AND scientific_name = ? AND confidence >= ?
-               ORDER BY timestamp""",
-            (date, scientific_name, min_conf)
-        ).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-# ----------------------------------------------------------------
-# 4. Admin artsliste: scientific_name + confidence for en dato
-# ----------------------------------------------------------------
-@app.get("/detections/species_list")
-def get_species_list(date: str):
-    conn = get_db()
-    rows = conn.execute(
-        "SELECT scientific_name, confidence FROM detections WHERE DATE(timestamp) = ?",
-        (date,)
-    ).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-# ----------------------------------------------------------------
-# 4. Admin artsliste: scientific_name + confidence for en dato
-# ----------------------------------------------------------------
-@app.get("/detections/species_list_singles")
-def get_species_list(date: str):
-    conn = get_db()
-    rows = conn.execute(
-        "SELECT DISTINCT scientific_name FROM detections WHERE DATE(timestamp) = ?",
-        (date,)
-    ).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-# ----------------------------------------------------------------
-# 5. Admin deteksjonsliste: alle felt for art + dato
-# ----------------------------------------------------------------
-@app.get("/detections/admin")
-def get_detections_admin(date: str, scientific_name: str):
-    conn = get_db()
-    rows = conn.execute(
-        """SELECT id, location_id, timestamp, scientific_name, confidence, recording, start_time, end_time
-           FROM detections WHERE DATE(timestamp) = ? AND scientific_name = ?
-           ORDER BY confidence DESC""",
-        (date, scientific_name)
-    ).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-# ----------------------------------------------------------------
-# 6. Bekreftelsesdialog: hent detaljer for liste av IDer
-# ----------------------------------------------------------------
-@app.get("/detections/by_ids")
-def get_detections_by_ids(ids: list[int] = Query(...)):
-    conn = get_db()
-    placeholders = ",".join("?" for _ in ids)
-    rows = conn.execute(
-#        f"SELECT id, timestamp, start_time, confidence FROM detections WHERE id IN ({placeholders})",
-        f"SELECT id, timestamp, start_time, confidence FROM detections WHERE id IN ({placeholders}) ORDER BY confidence DESC",
-        ids
-    ).fetchall()
-    conn.close()
-    return [dict(row) for row in rows]
-
-# ----------------------------------------------------------------
-# 7. Arkiver hel art for en dato → false_positives
-# ----------------------------------------------------------------
-@app.post("/detections/archive_species")
-def archive_species(date: str, scientific_name: str):
-    conn = get_db()
-    conn.execute(
-        """INSERT INTO false_positives (id, location_id, timestamp, scientific_name, confidence, recording, start_time, end_time)
-           SELECT id, location_id, timestamp, scientific_name, confidence, recording, start_time, end_time
-           FROM detections WHERE DATE(timestamp) = ? AND scientific_name = ?""",
-        (date, scientific_name)
-    )
-    affected = conn.execute(
-        "DELETE FROM detections WHERE DATE(timestamp) = ? AND scientific_name = ?",
-        (date, scientific_name)
-    ).rowcount
-    conn.commit()
-    conn.close()
-    return {"archived": affected}
-
-# ----------------------------------------------------------------
-# 8. Arkiver enkeltdeteksjoner etter ID → false_positives
-# ----------------------------------------------------------------
-@app.post("/detections/archive_by_ids")
-def archive_by_ids(ids: list[int]):
-    conn = get_db()
-    archived = 0
-    for detection_id in ids:
-        conn.execute(
-            """INSERT INTO false_positives (id, location_id, timestamp, scientific_name, confidence, recording, start_time, end_time)
-               SELECT id, location_id, timestamp, scientific_name, confidence, recording, start_time, end_time
-               FROM detections WHERE id = ?""",
-            (detection_id,)
-        )
-        conn.execute("DELETE FROM detections WHERE id = ?", (detection_id,))
-        archived += 1
-    conn.commit()
-    conn.close()
-    return {"archived": archived}
-
-##################################################################
-#  GRAFANA-SPESIFIKE QUERIES
-##################################################################
-
-MIN_CONF = 0.7
 
 # ----------------------------------------------------------------
 # Filterkonfigurasjon
@@ -333,6 +160,7 @@ def get_norwegian_name(scientific_name: str) -> str:
     return norwegian_name
 
 
+
 # ----------------------------------------------------------------
 # 9. Matrise: antall deteksjoner per art per time (pivotert)
 #    Aggregerer over flere dager (from_date til to_date).
@@ -363,7 +191,11 @@ def get_detections_matrix(
     ).fetchall()
     conn.close()
  
-    # Bygg opp dict med filtrering per art og måned
+##################################################################
+
+#  GRAFANA-SPESIFIKE QUERIES
+##################################################################
+
     species_hours: dict = {}
     for row in rows:
         name = row["scientific_name"]
