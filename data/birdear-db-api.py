@@ -23,6 +23,7 @@ app.add_middleware(
         "http://birdear-player.prestoy.cc",
         "https://birdear-player.prestoy.cc",
         "http://birdear-api.prestoy.cc",
+        "https://birdear-api.prestoy.cc",
     ],
     allow_methods=["GET"],
     allow_headers=["*"],
