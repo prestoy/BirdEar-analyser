@@ -11,8 +11,9 @@ from datetime import datetime, timezone
 import zoneinfo
 
 CONFIG = "/home/e33admin/apps/BirdEar-analyser/config-default.yaml"
-AUDIO_DIR = "/mnt/nas-e33_felles/birdmic/audioarkiv"
-MIN_CONF = 0.7
+config = load_config()
+MIN_CONF = config["analyse"]["min_confidence_display"]
+AUDIO_DIR = config["audio-path"]
 
 
 app = FastAPI()
@@ -159,7 +160,10 @@ def get_norwegian_name(scientific_name: str) -> str:
     _norwegian_name_cache[scientific_name] = norwegian_name
     return norwegian_name
 
+##################################################################
 
+#  GRAFANA-SPESIFIKE QUERIES
+##################################################################
 
 # ----------------------------------------------------------------
 # 9. Matrise: antall deteksjoner per art per time (pivotert)
@@ -190,11 +194,6 @@ def get_detections_matrix(
         (from_date, to_date)
     ).fetchall()
     conn.close()
- 
-##################################################################
-
-#  GRAFANA-SPESIFIKE QUERIES
-##################################################################
 
     species_hours: dict = {}
     for row in rows:
@@ -414,7 +413,7 @@ def get_recordings(
     from_date: str,
     to_date: str,
     scientific_name: str,
-    min_conf: float = 0.7,
+    min_conf: float = MIN_CONF,
     hour: Optional[int] = None
 ):
     conn = get_db()

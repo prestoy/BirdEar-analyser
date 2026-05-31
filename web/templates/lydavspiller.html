@@ -16,18 +16,19 @@
     <main>
         <div id="opptak"></div>
     </main>
-
     <script>
         const API = "{{ api_base_url }}";
 
-        async function hentOpptak(vitenskapeligNavn, norskNavn, from, to, minConf) {
-
+        async function hentOpptak(vitenskapeligNavn, norskNavn, from, to, hour) {
             const div = document.getElementById("opptak");
             div.innerHTML = `<h2>${norskNavn} <span style="font-weight:normal;font-style:italic;font-size:0.8em">(${vitenskapeligNavn})</span></h2>
                 <p id="laster">⏳ Henter lydklipp...</p>`;
 
+            let url = `${API}/detections/recordings?from_date=${from}:00&to_date=${to}:59&scientific_name=${encodeURIComponent(vitenskapeligNavn)}`;
+            if (hour !== null && hour !== "") {
+                url += `&hour=${hour}`;
+            }
 
-            const url = `${API}/detections/recordings?from_date=${from}:00&to_date=${to}:59&scientific_name=${encodeURIComponent(vitenskapeligNavn)}&min_conf=${minConf}`;                
             const resp = await fetch(url);
             const opptak = await resp.json();
 
@@ -53,28 +54,26 @@
             }
         }
 
-
         (async () => {
             const params = new URLSearchParams(window.location.search);
             const scientific = params.get("scientific_name");
             const fromParam = params.get("from_date");
             const toParam = params.get("to_date");
-            const minConf = params.get("min_conf") || "0.7";
+            const hour = params.get("hour") || "";
 
             if (!scientific || !fromParam || !toParam) {
                 document.getElementById("opptak").innerHTML = "<p>Ingen art eller tidsrom angitt.</p>";
                 return;
             }
 
-            // Hent norsk navn via species_count med UTC-tid
-            const resp = await fetch(`${API}/detections/species_count?from_date=${fromParam}:00&to_date=${toParam}:59&min_conf=${minConf}`);
+            // Hent norsk navn via species_count
+            const resp = await fetch(`${API}/detections/species_count?from_date=${fromParam}:00&to_date=${toParam}:59`);
             const arter = await resp.json();
             const match = arter.find(a => a.vitenskapelig_navn === scientific);
             const norskNavn = match ? match.art : scientific;
 
-            hentOpptak(scientific, norskNavn, fromParam, toParam, minConf);
+            hentOpptak(scientific, norskNavn, fromParam, toParam, hour);
         })();
-
     </script>
 </body>
 </html>

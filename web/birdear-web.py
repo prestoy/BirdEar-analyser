@@ -49,15 +49,13 @@ async def lydavspiller(
     request: Request,
     from_date: str = "",
     to_date: str = "",
-    min_conf: float = 0.7
 ):
     return templates.TemplateResponse("lydavspiller.html", {
         "request": request,
         "title": "Lydavspiller",
         "api_base_url": API_BASE_URL,
         "from_date": from_date,
-        "to_date": to_date,
-        "min_conf": min_conf
+        "to_date": to_date
     })
 
 
