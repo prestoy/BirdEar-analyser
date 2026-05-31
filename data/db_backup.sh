@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Sjekk tilgang til kildedatabase
-SOURCE_DB="/mnt/nas-e33_felles/birdmic/data/birdmic_detections.prod.sqlite"
+SOURCE_DB="/home/e33admin/BirdEar-analyser/data/birdmic_detections.prod.sqlite"
 BACKUP_DIR="/mnt/nas-e33_felles/birdmic/backup/data"
 
 if [ ! -r "$SOURCE_DB" ]; then

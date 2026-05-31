@@ -1,11 +1,11 @@
 [Unit]
-Description=BirdEarAnalyser DB API
+Description=BirdEar-analyser DB API
 After=network.target
 
 [Service]
 User=e33admin
-WorkingDirectory=/home/e33admin/apps/BirdMicAnalyser/data
-ExecStart=/home/e33admin/apps/BirdMicAnalyser/.env/bin/uvicorn birdear-db-api:app --host 0.0.0.0 --port 8001
+WorkingDirectory=/home/e33admin/apps/BirdEar-analyser/data
+ExecStart=/home/e33admin/apps/BirdEar-analyser/.venv/bin/uvicorn birdear-db-api:app --host 0.0.0.0 --port 8001
 Restart=on-failure
 RestartSec=5
 StandardOutput=journal

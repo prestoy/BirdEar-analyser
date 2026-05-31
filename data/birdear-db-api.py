@@ -10,7 +10,7 @@ import json
 from datetime import datetime, timezone
 import zoneinfo
 
-CONFIG = "/home/e33admin/apps/BirdMicAnalyser/config-default.yaml"
+CONFIG = "/home/e33admin/apps/BirdEar-analyser/config-default.yaml"
 AUDIO_DIR = "/mnt/nas-e33_felles/birdmic/audioarkiv"
 MIN_CONF = 0.7
 
@@ -53,7 +53,7 @@ def get_db():
 # ----------------------------------------------------------------
 # Filterkonfigurasjon
 # ----------------------------------------------------------------
-FILTER_DIR = "/home/e33admin/apps/BirdMicAnalyser/kilder"
+FILTER_DIR = "/home/e33admin/apps/BirdEar-analyser/kilder"
 FILTERTABELL_PATH = f"{FILTER_DIR}/sjetnmarka_filtertabell.json"
 OVERSTYRING_PATH  = f"{FILTER_DIR}/sjetnmarka_filtertabell_overstyring.json"
 
@@ -406,25 +406,41 @@ def get_species_count(
 
 # ----------------------------------------------------------------
 # 13. Liste over lydfiler for en art i en periode
+#     Valgfri hour-parameter filtrerer på time i døgnet
+#     på tvers av hele perioden.
 # ----------------------------------------------------------------
 @app.get("/detections/recordings")
 def get_recordings(
     from_date: str,
     to_date: str,
     scientific_name: str,
-    min_conf: float = MIN_CONF
+    min_conf: float = 0.7,
+    hour: Optional[int] = None
 ):
-
     conn = get_db()
-    rows = conn.execute(
-        """SELECT timestamp, recording, start_time, end_time, confidence
-           FROM detections
-           WHERE timestamp BETWEEN ? AND ?
-           AND scientific_name = ?
-           AND confidence >= ?
-           ORDER BY confidence DESC""",
-        (from_date, to_date, scientific_name, min_conf)
-    ).fetchall()
+
+    if hour is not None:
+        rows = conn.execute(
+            """SELECT timestamp, recording, start_time, end_time, confidence
+               FROM detections
+               WHERE timestamp BETWEEN ? AND ?
+               AND scientific_name = ?
+               AND confidence >= ?
+               AND CAST(strftime('%H', timestamp) AS INTEGER) = ?
+               ORDER BY confidence DESC""",
+            (from_date, to_date, scientific_name, min_conf, hour)
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            """SELECT timestamp, recording, start_time, end_time, confidence
+               FROM detections
+               WHERE timestamp BETWEEN ? AND ?
+               AND scientific_name = ?
+               AND confidence >= ?
+               ORDER BY confidence DESC""",
+            (from_date, to_date, scientific_name, min_conf)
+        ).fetchall()
+
     conn.close()
 
     return [
