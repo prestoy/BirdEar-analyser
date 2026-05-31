@@ -480,9 +480,14 @@ def get_species_by_hour(
     scientific_name: str,
     min_conf: float = MIN_CONF
 ):
-    # Konverter dato på grunnlag av locale
     from_date = to_local(from_date)
     to_date = to_local(to_date)
+
+    # Finn artsspesifikk konfidens fra filtertabell
+    hoved, overstyr = load_filter()
+    maaned = datetime.fromisoformat(from_date).month
+    ekskluder, art_min_konf = should_exclude(scientific_name, maaned, hoved, overstyr)
+    gjeldende_min_konf = art_min_konf if art_min_konf is not None else min_conf
 
     conn = get_db()
     rows = conn.execute(
@@ -494,7 +499,7 @@ def get_species_by_hour(
            AND confidence >= ?
            GROUP BY hour
            ORDER BY hour""",
-        (from_date, to_date, scientific_name, min_conf)
+        (from_date, to_date, scientific_name, gjeldende_min_konf)
     ).fetchall()
     conn.close()
 
