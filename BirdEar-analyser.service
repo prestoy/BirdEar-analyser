@@ -1,0 +1,17 @@
+[Unit]
+Description=BirdEar analyser
+After=network.target
+
+[Service]
+User=e33admin
+Group=e33admin
+WorkingDirectory=/home/e33admin/apps/BirdEar-analyser
+Environment="PATH=/home/e33admin/apps/BirdEar-analyser/.venv/bin"
+Environment="PATH=/usr/bin:/usr/sbin:/usr/local/sbin:/usr/local/bin"
+ExecStart=/home/e33admin/apps/BirdEar-analyser/.venv/bin/python3 birdear-analyser.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+

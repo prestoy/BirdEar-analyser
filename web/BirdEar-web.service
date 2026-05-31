@@ -4,8 +4,8 @@ After=network.target
 
 [Service]
 User=e33admin
-WorkingDirectory=/home/e33admin/apps/BirdMicAnalyser/web
-ExecStart=/home/e33admin/apps/BirdMicAnalyser/.env/bin/uvicorn birdear-web:app --host 0.0.0.0 --port 8002
+WorkingDirectory=/home/e33admin/apps/BirdEar-analyser/web
+ExecStart=/home/e33admin/apps/BirdEar-analyser/.venv/bin/uvicorn birdear-web:app --host 0.0.0.0 --port 8002
 Restart=on-failure
 RestartSec=5
 StandardOutput=journal
