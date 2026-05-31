@@ -181,6 +181,11 @@
     "ekskluder_alle_maaneder": true
   },
   {
+    "vitenskapelig_navn": "Rallus aquaticus",
+    "navn": "vannrikse",
+    "ekskluder_alle_maaneder": true
+  },
+  {
     "vitenskapelig_navn": "Asio otus",
     "navn": "hornugle",
     "ekskluder_alle_maaneder": true
@@ -191,8 +196,28 @@
     "ekskluder_alle_maaneder": true
   },
   {
+    "vitenskapelig_navn": "Tringa erythropus",
+    "navn": "sotsnipe",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Strix uralensis",
+    "navn": "slagugle",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Charadrius morinellus",
+    "navn": "boltit",
+    "ekskluder_alle_maaneder": true
+  },
+  {
     "vitenskapelig_navn": "Bucephala clangula",
     "navn": "kvinand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Numenius phaeopus",
+    "navn": "småspove",
     "ekskluder_alle_maaneder": true
   },
   {
@@ -201,8 +226,23 @@
     "ekskluder_alle_maaneder": true
   },
   {
+    "vitenskapelig_navn": "Stercorarius longicaudus",
+    "navn": "fjelljo",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Phalaropus lobatus",
+    "navn": "svømmesnipe",
+    "ekskluder_alle_maaneder": true
+  },
+  {
     "vitenskapelig_navn": "Anas platyrhynchos",
     "navn": "stokkand",
+    "ekskluder_alle_maaneder": true
+  },
+  {
+    "vitenskapelig_navn": "Tadorna tadorna",
+    "navn": "gravand",
     "ekskluder_alle_maaneder": true
   },
   {
