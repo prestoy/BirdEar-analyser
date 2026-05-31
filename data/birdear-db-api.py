@@ -20,12 +20,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://192.168.1.62:8002",
-        "http://birdmic-player.prestoy.cc",
-        "https://birdmic-player.prestoy.cc",
         "http://birdear-player.prestoy.cc",
         "https://birdear-player.prestoy.cc",
-        "http://birdmic-api.prestoy.cc",
-        "https://birdmic-api.prestoy.cc",
+        "http://birdear-api.prestoy.cc",
     ],
     allow_methods=["GET"],
     allow_headers=["*"],
