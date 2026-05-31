@@ -31,6 +31,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+def load_config():
+    with open(CONFIG) as f:
+        return yaml.safe_load(f)
+
 def to_local(iso_str: str) -> str:
     """Konverter ISO UTC-streng fra Grafana til lokal tid (Europe/Oslo)."""
     tz_oslo = zoneinfo.ZoneInfo("Europe/Oslo")
