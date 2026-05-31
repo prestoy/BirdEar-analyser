@@ -206,6 +206,11 @@
     "ekskluder_alle_maaneder": true
   },
   {
+    "vitenskapelig_navn": "Fratercula arctica",
+    "navn": "lunde",
+    "ekskluder_alle_maaneder": true
+  },
+  {
     "vitenskapelig_navn": "Falco tinnunculus",
     "navn": "tårnfalk",
     "maaneder": [
