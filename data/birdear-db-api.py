@@ -163,7 +163,7 @@ def get_norwegian_name(scientific_name: str) -> str:
 
 config = load_config()
 MIN_CONF = config["analyse"]["min_confidence_display"]
-AUDIO_DIR = config["audio-path"]
+AUDIO_DIR = config["audio-archive-path"]
 
 
 # ----------------------------------------------------------------
